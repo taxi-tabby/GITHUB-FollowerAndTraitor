@@ -114,7 +114,7 @@ npm run rebuild
 
 ## License
 
-This project is licensed under the ISC License.
+This project is get no license.
 
 ---
 
@@ -225,5 +225,38 @@ npm run rebuild
 ```
 
 ## 라이센스
+이 프로젝트는 라이선스가 없습니다.
 
-이 프로젝트는 ISC 라이센스에 따라 라이센스가 부여됩니다.
+
+
+
+----
+> 메인 화면
+```bash
+(base) PS R:\project\github-follower-traitor> npm run start
+
+> github-follower-traitor@1.0.0 start
+> node dist/index.js
+
+GitHub Follower and Traitor 애플리케이션이 시작되었습니다!
+현재 시간: 2025. 5. 5. 오후 11:19:10
+
+"taxi-tabby" 사용자의 팔로워와 팔로잉 정보를 가져오는 중...
+followers (팔로워 수): 27
+following (팔로잉 수): 27
+
+내가 팔로우하지만 나를 팔로우하지 않는 사용자 수: 0
+배신자 목록:
+
+나를 팔로우하지만 내가 팔로우하지 않는 사용자 수: 0
+팔로우하지 않는 팔로워:
+
+
+📊 GitHub Follow control menu:
+1: Follow all users who follow me but I don't follow back - 나를 팔로우하는데 내가 팔로우하지 않는 모든 사람을 팔로우하기
+2: Unfollow all users who don't follow me back - 나를 팔로우하지 않는데 내가 팔로우하고 있는 모든 사람 언팔로우하기
+3: Follow a specific user - 특정 사용자 팔로우하기
+4: Unfollow a specific user - 특정 사용자 언팔로우하기
+5: View detailed status - 세부 상태보기 (Sub Menu)
+0: Exit - 종료하기
+```
