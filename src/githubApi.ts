@@ -14,41 +14,89 @@ export class GitHubAPI {
 	constructor(token: string) {
 		this.token = token;
 	}
-
 	/**
-	 * 사용자의 팔로워 목록을 가져옵니다.
+	 * 사용자의 팔로워 목록을 가져옵니다. (페이지네이션 처리)
 	 * @param username GitHub 사용자명
 	 * @returns 팔로워 사용자 목록
 	 */
 	async getFollowers(username: string): Promise<any[]> {
 		try {
-			const response = await axios.get(`${this.baseUrl}/users/${username}/followers`, {
-				headers: {
-					'Authorization': `token ${this.token}`,
-					'Accept': 'application/vnd.github.v3+json'
+			let allFollowers: any[] = [];
+			let page = 1;
+			const perPage = 100; // 한 페이지당 최대 100개
+
+			while (true) {
+				const response = await axios.get(`${this.baseUrl}/users/${username}/followers`, {
+					headers: {
+						'Authorization': `token ${this.token}`,
+						'Accept': 'application/vnd.github.v3+json'
+					},
+					params: {
+						page: page,
+						per_page: perPage
+					}
+				});
+
+				const followers = response.data;
+				if (followers.length === 0) {
+					break; // 더 이상 데이터가 없으면 종료
 				}
-			});
-			return response.data;
+
+				allFollowers = allFollowers.concat(followers);
+				
+				// 받은 데이터가 perPage보다 적으면 마지막 페이지
+				if (followers.length < perPage) {
+					break;
+				}
+
+				page++;
+			}
+
+			return allFollowers;
 		} catch (error) {
 			console.error('팔로워 목록을 가져오는 중 오류가 발생했습니다:', error);
 			return [];
 		}
 	}
-
 	/**
-	 * 사용자가 팔로우하는 사람들의 목록을 가져옵니다.
+	 * 사용자가 팔로우하는 사람들의 목록을 가져옵니다. (페이지네이션 처리)
 	 * @param username GitHub 사용자명
 	 * @returns 팔로잉 사용자 목록
 	 */
 	async getFollowing(username: string): Promise<any[]> {
 		try {
-			const response = await axios.get(`${this.baseUrl}/users/${username}/following`, {
-				headers: {
-					'Authorization': `token ${this.token}`,
-					'Accept': 'application/vnd.github.v3+json'
+			let allFollowing: any[] = [];
+			let page = 1;
+			const perPage = 100; // 한 페이지당 최대 100개
+
+			while (true) {
+				const response = await axios.get(`${this.baseUrl}/users/${username}/following`, {
+					headers: {
+						'Authorization': `token ${this.token}`,
+						'Accept': 'application/vnd.github.v3+json'
+					},
+					params: {
+						page: page,
+						per_page: perPage
+					}
+				});
+
+				const following = response.data;
+				if (following.length === 0) {
+					break; // 더 이상 데이터가 없으면 종료
 				}
-			});
-			return response.data;
+
+				allFollowing = allFollowing.concat(following);
+				
+				// 받은 데이터가 perPage보다 적으면 마지막 페이지
+				if (following.length < perPage) {
+					break;
+				}
+
+				page++;
+			}
+
+			return allFollowing;
 		} catch (error) {
 			console.error('팔로잉 목록을 가져오는 중 오류가 발생했습니다:', error);
 			return [];
