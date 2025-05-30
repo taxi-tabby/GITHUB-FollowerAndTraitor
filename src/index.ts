@@ -83,6 +83,7 @@ async function showMenu(githubApi: GitHubAPI): Promise<void> {
 	console.log('3: Follow a specific user - 특정 사용자 팔로우하기');
 	console.log('4: Unfollow a specific user - 특정 사용자 언팔로우하기');
 	console.log('5: View detailed status - 세부 상태보기 (Sub Menu)');
+	console.log('🚀 6: Instant Sync (1 + 2) - 즉시 동기화 (1번과 2번을 동시에 실행)');
 	console.log('0: Exit - 종료하기');
 
 
@@ -104,13 +105,17 @@ async function processChoice(choice: string, githubApi: GitHubAPI): Promise<void
 			// 다시 메뉴 표시
 			await showMenu(githubApi);
 			break;
-
 		case '2':
 			console.log('\n나를 팔로우하지 않는데 내가 팔로우하고 있는 모든 사람을 언팔로우합니다...');
 			const unfollowedUsers = await githubApi.unfollowAllNotFollowingYou(username);
 			console.log(`✅ 성공적으로 ${unfollowedUsers.length}명의 사용자를 언팔로우했습니다.`);
 			// 다시 메뉴 표시
 			await showMenu(githubApi);
+			break;
+		case '6':
+			await instantSync(githubApi);
+			console.log('\n프로그램을 종료합니다.');
+			rl.close();
 			break;
 
 		case '3': {
@@ -205,6 +210,36 @@ async function showDetailedStatus(githubApi: GitHubAPI): Promise<void> {
 		case '0':
 		default:
 			return; // 메인 메뉴로 돌아가기
+	}
+}
+
+/**
+ * 1번과 2번을 동시에 실행하는 함수 (즉시 동기화)
+ * @param githubApi GitHubAPI 인스턴스
+ */
+async function instantSync(githubApi: GitHubAPI): Promise<void> {
+	console.log('\n🚀 즉시 동기화를 시작합니다...');
+	console.log('1️⃣ 나를 팔로우하지 않는 사람들을 언팔로우합니다...');
+	console.log('2️⃣ 나를 팔로우하는데 내가 팔로우하지 않는 사람들을 팔로우합니다...');
+	
+	try {
+		// 1단계: 나를 팔로우하지 않는 사람들 언팔로우
+		const unfollowedUsers = await githubApi.unfollowAllNotFollowingYou(username);
+		console.log(`✅ 1단계 완료: ${unfollowedUsers.length}명의 사용자를 언팔로우했습니다.`);
+		
+		// 2단계: 나를 팔로우하는데 내가 팔로우하지 않는 사람들 팔로우
+		const followedUsers = await githubApi.followAllNonFollowingBack(username);
+		console.log(`✅ 2단계 완료: ${followedUsers.length}명의 사용자를 팔로우했습니다.`);
+		
+		console.log('\n🎉 즉시 동기화가 완료되었습니다!');
+		console.log(`📊 총 ${unfollowedUsers.length}명 언팔로우, ${followedUsers.length}명 팔로우`);
+		
+		// 최종 상태 표시
+		console.log('\n--- 동기화 후 상태 ---');
+		await showStatus(githubApi);
+		
+	} catch (error) {
+		console.error('❌ 즉시 동기화 중 오류가 발생했습니다:', error);
 	}
 }
 

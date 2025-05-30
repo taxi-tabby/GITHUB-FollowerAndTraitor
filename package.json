@@ -1,8 +1,7 @@
 {
   "name": "github-follower-traitor",
   "version": "1.0.0",
-  "main": "dist/index.js",
-  "scripts": {
+  "main": "dist/index.js",  "scripts": {
     "start": "node dist/index.js",
     "dev": "ts-node src/index.ts",
     "build": "tsc",
@@ -10,7 +9,8 @@
     "lint": "eslint src/**/*.ts",
     "clean": "rimraf dist",
     "rebuild": "npm run clean && npm run build",
-    "test": "jest"
+    "test": "jest",
+    "instant-run": "npm run build && node dist/instant.js"
   },
   "keywords": [],
   "author": "",

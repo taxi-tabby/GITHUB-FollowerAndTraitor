@@ -110,7 +110,37 @@ npm run clean
 
 # Rebuild (clean + build)
 npm run rebuild
+
+# 🚀 NEW: Instant Sync (Auto follow/unfollow)
+npm run instant-run
 ```
+
+### Menu Options
+
+When you run the application, you'll see the following menu:
+
+1. **Follow all users who follow me but I don't follow back** - Automatically follow all users who follow you but you don't follow back
+2. **Unfollow all users who don't follow me back** - Automatically unfollow all users who don't follow you back
+3. **Follow a specific user** - Follow a specific GitHub user
+4. **Unfollow a specific user** - Unfollow a specific GitHub user
+5. **View detailed status** - View detailed lists of followers, following, traitors, and unfollowed followers
+6. **🚀 Instant Sync (1 + 2)** - Automatically perform both options 1 and 2 in sequence for perfect synchronization
+0. **Exit** - Exit the application
+
+### Instant Sync Feature
+
+The new **Instant Sync** feature (`npm run instant-run`) is perfect for quickly synchronizing your followers and following:
+
+- Automatically unfollows users who don't follow you back
+- Automatically follows users who follow you but you don't follow back
+- Runs completely automatically without user interaction
+- Displays detailed progress and final statistics
+- Exits automatically when complete
+
+This is ideal for:
+- Daily maintenance of your GitHub following list
+- Keeping follower/following counts balanced
+- Automated scripts and scheduled tasks
 
 ## License
 
@@ -202,8 +232,26 @@ npm start
      - 모든 배신자 목록 보기 (나를 팔로우하지 않는 사람)
      - 모든 미팔로우 팔로워 목록 보기 (내가 팔로우하지 않는 팔로워)
 
+6. **🚀 즉시 동기화 (1 + 2)**
+   - 1번과 2번 옵션을 순차적으로 자동 실행하여 완벽한 동기화를 수행합니다
+
 0. **종료하기**
    - 애플리케이션을 종료합니다
+
+### 즉시 동기화 기능
+
+새로운 **즉시 동기화** 기능 (`npm run instant-run`)은 팔로워와 팔로잉을 빠르게 동기화하는 데 완벽합니다:
+
+- 나를 팔로우하지 않는 사용자들을 자동으로 언팔로우
+- 나를 팔로우하지만 내가 팔로우하지 않는 사용자들을 자동으로 팔로우
+- 사용자 상호작용 없이 완전히 자동으로 실행
+- 상세한 진행 상황과 최종 통계 표시
+- 완료 시 자동으로 종료
+
+다음과 같은 경우에 이상적입니다:
+- GitHub 팔로잉 목록의 일일 관리
+- 팔로워/팔로잉 수의 균형 유지
+- 자동화된 스크립트 및 예약된 작업
 
 ## 개발
 
@@ -222,6 +270,9 @@ npm run clean
 
 # 재빌드 (clean + build)
 npm run rebuild
+
+# 🚀 새로운 기능: 즉시 동기화 (자동 팔로우/언팔로우)
+npm run instant-run
 ```
 
 ## 라이센스
