@@ -278,8 +278,8 @@ npm start
 - 사용자 상호작용 없이 완전히 자동으로 실행
 - 상세한 진행 상황과 최종 통계 표시
 - 완료 시 자동으로 종료
-- **스마트 타임아웃 처리**: 작업이 너무 오래 걸리는 경우(`TIMEOVER_MS` 설정 기준), `savedata.json`에 진행 상황을 저장하고 다음 실행 시 해당 지점부터 재개
-- **Rate Limit 보호**: 요청 사이의 지연 시간을 설정(`RATELIMIT_WAIT_MS`)하여 GitHub API ratelimit 에 안걸리게 하기 위한 최소한의 조치
+- **스마트 타임아웃 처리**: 작업이 너무 오래 걸리는 경우(`TIMEOVER_MS` 설정 기준), `savedata.json`에 진행 상황을 저장하고 다음 실행 시 해당 지점부터 재개 (instant-run 한정)
+- **Rate Limit 보호**: 요청 사이의 지연 시간을 설정(`RATELIMIT_WAIT_MS`)하여 GitHub API ratelimit 에 안걸리게 하기 위한 최소한의 조치 (instant-run 한정)
 
 다음과 같은 경우에 이상적입니다:
 - GitHub 팔로잉 목록의 일일 관리
@@ -287,7 +287,7 @@ npm start
 - 자동화된 스크립트 및 예약된 작업 (cron 작업 등)
 - 시간 제한을 초과할 수 있는 대규모 팔로워/팔로잉 목록
 
-**Cron 작업과 함께 작동하는 방법:**
+**Cron 작업과 함께 작동하는 방법:** (instant-run 한정)
 1시간마다 또는 10분마다 이 스크립트를 실행하도록 예약했는데 `TIMEOVER_MS` 제한 내에 완료되지 않는 경우:
 1. 스크립트가 진행 상황을 `savedata.json`에 저장
 2. 다음 예약된 실행 시 자동으로 중단된 지점부터 재개
