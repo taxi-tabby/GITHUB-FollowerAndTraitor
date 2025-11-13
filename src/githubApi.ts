@@ -6,13 +6,25 @@ import axios from 'axios';
 export class GitHubAPI {
 	private token: string;
 	private baseUrl: string = 'https://api.github.com';
+	private rateLimitWaitMs: number;
 
 	/**
 	 * GitHubAPI 클래스의 생성자
 	 * @param token GitHub API 토큰
+	 * @param rateLimitWaitMs API 요청 사이의 대기 시간 (밀리초, 기본값: 1000ms)
 	 */
-	constructor(token: string) {
+	constructor(token: string, rateLimitWaitMs: number = 1000) {
 		this.token = token;
+		this.rateLimitWaitMs = rateLimitWaitMs;
+	}
+
+	/**
+	 * Rate Limit을 피하기 위한 대기 함수
+	 */
+	private async waitForRateLimit(): Promise<void> {
+		if (this.rateLimitWaitMs > 0) {
+			await new Promise(resolve => setTimeout(resolve, this.rateLimitWaitMs));
+		}
 	}
 	/**
 	 * 사용자의 팔로워 목록을 가져옵니다. (페이지네이션 처리)
@@ -26,6 +38,8 @@ export class GitHubAPI {
 			const perPage = 100; // 한 페이지당 최대 100개
 
 			while (true) {
+				await this.waitForRateLimit();
+				
 				const response = await axios.get(`${this.baseUrl}/users/${username}/followers`, {
 					headers: {
 						'Authorization': `token ${this.token}`,
@@ -70,6 +84,8 @@ export class GitHubAPI {
 			const perPage = 100; // 한 페이지당 최대 100개
 
 			while (true) {
+				await this.waitForRateLimit();
+				
 				const response = await axios.get(`${this.baseUrl}/users/${username}/following`, {
 					headers: {
 						'Authorization': `token ${this.token}`,
@@ -110,6 +126,8 @@ export class GitHubAPI {
 	 */
 	async followUser(username: string): Promise<boolean> {
 		try {
+			await this.waitForRateLimit();
+			
 			const response = await axios.put(`${this.baseUrl}/user/following/${username}`, {}, {
 				headers: {
 					'Authorization': `token ${this.token}`,
@@ -136,6 +154,8 @@ export class GitHubAPI {
 	 */
 	async unfollowUser(username: string): Promise<boolean> {
 		try {
+			await this.waitForRateLimit();
+			
 			const response = await axios.delete(`${this.baseUrl}/user/following/${username}`, {
 				headers: {
 					'Authorization': `token ${this.token}`,
@@ -203,8 +223,6 @@ export class GitHubAPI {
 			if (success) {
 				successfulFollows.push(user);
 			}
-			// API 속도 제한을 피하기 위한 짧은 대기
-			await new Promise(resolve => setTimeout(resolve, 1000));
 		}
 		
 		return successfulFollows;
@@ -226,8 +244,6 @@ export class GitHubAPI {
 			if (success) {
 				successfulUnfollows.push(user);
 			}
-			// API 속도 제한을 피하기 위한 짧은 대기
-			await new Promise(resolve => setTimeout(resolve, 1000));
 		}
 		
 		return successfulUnfollows;

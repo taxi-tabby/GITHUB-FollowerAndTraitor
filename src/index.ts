@@ -14,6 +14,7 @@ dotenv.config();
 // GitHub API 클래스 초기화
 const githubToken = process.env.GITHUB_TOKEN || '';
 const username = process.env.GITHUB_USERNAME || '';
+const rateLimitWaitMs = parseInt(process.env.RATELIMIT_WAIT_MS || '1000', 10);
 
 // 사용자 입력을 받기 위한 readline 인터페이스 생성
 const rl = readline.createInterface({
@@ -261,7 +262,7 @@ async function main(): Promise<void> {
 	}
 
 	try {
-		const githubApi = new GitHubAPI(githubToken);
+		const githubApi = new GitHubAPI(githubToken, rateLimitWaitMs);
 
 		// 기본 상태 표시
 		await showStatus(githubApi);

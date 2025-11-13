@@ -19,6 +19,9 @@ out/
 .env.test
 .env.production
 
+# Save data from instant-run
+savedata.json
+
 # IDE and editor files
 .idea/
 .vscode/
